@@ -8,7 +8,9 @@ app.get("/", (req, res)=>{
 })
 
 app.get("/home", (req, res)=>{
-    res.render("index")
+    const nome = req.query['nome']
+    const email = req.query['email']
+    res.render("index", {nome, email})
 })
 
 app.listen(3000, (error)=>{
