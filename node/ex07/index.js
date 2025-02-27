@@ -3,6 +3,7 @@ const express = require("express")
 const bodyParser = require("body-parser");
 const conexao = require("./database/database");
 const Pergunta = require("./database/models/Pergunta");
+const Resposta = require("./database/models/Resposta");
 const pergunta = require("./database/models/Pergunta");
 const app = express()
 
@@ -37,12 +38,29 @@ app.get("/pergunta/:id", (req, res)=>{
         where: {id : id}
     }).then((pergunta)=>{
         if(pergunta != undefined)
-            res.render("pergunta", {pergunta})
+            Resposta.findAll({
+                where:{
+                    perguntaId: id
+                },
+                order: [['id', 'desc']]
+            }).then((respostas)=>{
+                res.render("pergunta", {pergunta, respostas})
+            })
         else
             res.redirect("/")
     })
 })
 
+app.post("/resposta/create", (req, res)=>{
+    const id = req.body.id
+    const corpo = req.body.corpo
+    Resposta.create({
+        perguntaId: id,
+        corpo: corpo
+    }).then((resultado)=>{
+        res.redirect(`/pergunta/${id}`)
+    })
+})
 app.listen(3000, (error)=>{
     if(error)
         console.error("Erro ao iniciar o servidor")
