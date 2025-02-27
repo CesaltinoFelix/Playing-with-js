@@ -1,8 +1,30 @@
 <%-include('./partial/header.ejs')%>
 <%-include('./partial/navbar.ejs')%>
 <div class="container">
+    <hr>
     <h1><%= pergunta.titulo %></h1>
     <hr>
     <p><%= pergunta.descricao %></p>
+    <hr>
+    <form action="/resposta/create" method="post">
+        <h3>Responda</h3>
+        <label for="">Responder:</label>
+        <input type="hidden" name="id" value="<%= pergunta.id %>">
+        <textarea placeholder="Digite a sua resposta" name="corpo" class="form-control" required></textarea>
+        <button type="submit" class="btn btn-primary mt-4">Responder</button>
+    </form>
+    <hr>
+     <h3>Respostas</h3>
+    <% if(respostas.length != 0){
+               respostas.forEach(resposta => {%>
+               <div class="card mt-3">
+                   <div class="card-body">
+                       <h6><%= resposta.corpo%></h6>
+                   </div>
+               </div>
+               <%})
+           }else{%>
+               <p>Nenhuma resposta foi dada!</p>
+       <%}%>
 </div>
 <%-include('./partial/footer.ejs')%>
