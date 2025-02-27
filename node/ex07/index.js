@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 app.get("/", (req, res)=>{
-    Pergunta.findAll({raw: true}).then((perguntas)=>{
+    Pergunta.findAll({raw: true, order: [['id', 'desc']]}).then((perguntas)=>{
         res.render("index", {perguntas})
     })
 })
@@ -29,7 +29,18 @@ app.post("/adicionar-pergunta/create", (req, res)=>{
     }).then((resultado)=>{
         res.redirect("/")
     })
-    
+})
+
+app.get("/pergunta/:id", (req, res)=>{
+    const id = req.params.id
+    Pergunta.findOne({
+        where: {id : id}
+    }).then((pergunta)=>{
+        if(pergunta != undefined)
+            res.render("pergunta", {pergunta})
+        else
+            res.redirect("/")
+    })
 })
 
 app.listen(3000, (error)=>{

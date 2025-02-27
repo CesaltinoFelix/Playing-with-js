@@ -1,23 +1,21 @@
 <%- include('partial/header.ejs') %>
 <%- include('partial/navbar.ejs') %>
 <div class="container">
-    <h1>Home Screen</h1>
-    <a href="/adicionar-pergunta">adicionar pergunta</a>
-    <table>
-        <thead>
-            <th>ID</th>
-            <th>Titulo</th>
-            <th>Descricao</th>
-        </thead>
-        <tbody>
-            <% if(perguntas){
-                
+    <hr>
+    <h1 class="mt-4">Perguntas</h1>
+    <a class="btn btn-primary" href="/adicionar-pergunta">Perguntar</a>
+    <hr>
+     
+     <% if(perguntas.length != 0){
                 perguntas.forEach(pergunta => {%>
-                    <tr>
-                        <td><%= pergunta.id%></td>
-                        <td><%= pergunta.titulo%></td>
-                        <td><%= pergunta.descricao%></td>
-                    </tr>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h3><%= pergunta.titulo%></h3>
+                    </div>
+                    <div class="card-footer">
+                        <a href="/pergunta/<%= pergunta.id%>"><button class="btn btn-primary">Responder</button></a>
+                    </div>
+                </div>
                 <%})
             }else{%>
                 <p>Nenhuma pergunta foi feita!</p>
