@@ -1,11 +1,11 @@
 const {Sequelize} = require("sequelize");
 
-const sequelize = new Sequelize('database', 'username', 'password', {
+const conexao = new Sequelize('perguntas', 'root', '', {
     host: 'localhost',
     dialect: 'mysql'
 });
 
-sequelize.authenticate().then(()=>{
+conexao.authenticate().then(()=>{
 
   console.log('Connection has been established successfully.');
 }).catch((error)=>{
@@ -14,4 +14,4 @@ sequelize.authenticate().then(()=>{
 }) 
 
 
-module.exports = sequelize
+module.exports = conexao

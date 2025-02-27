@@ -1,5 +1,28 @@
 <%- include('partial/header.ejs') %>
 <%- include('partial/navbar.ejs') %>
+<div class="container">
     <h1>Home Screen</h1>
     <a href="/adicionar-pergunta">adicionar pergunta</a>
-    <%- include('partial/footer.ejs') %>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Titulo</th>
+            <th>Descricao</th>
+        </thead>
+        <tbody>
+            <% if(perguntas){
+                
+                perguntas.forEach(pergunta => {%>
+                    <tr>
+                        <td><%= pergunta.id%></td>
+                        <td><%= pergunta.titulo%></td>
+                        <td><%= pergunta.descricao%></td>
+                    </tr>
+                <%})
+            }else{%>
+                <p>Nenhuma pergunta foi feita!</p>
+            <%}%>
+        </tbody>
+    </table>
+</div>
+<%- include('partial/footer.ejs') %>

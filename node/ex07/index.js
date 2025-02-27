@@ -1,7 +1,9 @@
 const { render } = require("ejs")
 const express = require("express")
 const bodyParser = require("body-parser");
-const sequelize = require("./database/database");
+const conexao = require("./database/database");
+const Pergunta = require("./database/models/Pergunta");
+const pergunta = require("./database/models/Pergunta");
 const app = express()
 
 app.set("view engine", "ejs")
@@ -10,7 +12,9 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 app.get("/", (req, res)=>{
-    res.render("index")
+    Pergunta.findAll({raw: true}).then((perguntas)=>{
+        res.render("index", {perguntas})
+    })
 })
 
 app.get("/adicionar-pergunta", (req, res)=>{
@@ -18,7 +22,14 @@ app.get("/adicionar-pergunta", (req, res)=>{
 })
 
 app.post("/adicionar-pergunta/create", (req, res)=>{
-    res.send("pergunta adicionada")
+    const {titulo, descricao} = req.body
+    Pergunta.create({
+        titulo: titulo,
+        descricao: descricao
+    }).then((resultado)=>{
+        res.redirect("/")
+    })
+    
 })
 
 app.listen(3000, (error)=>{
